@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+	<table name="btMultiPageSelector">
+		<field name="bID" type="I">
+			<key />
+			<default value="0" />
+			<unsigned />
+		</field>
+		<field name="label" type="C" size="56"></field>
+	</table>
+	
+	<table name="btMultiPageSelectorItem">
+		<field name="bID" type="I"><unsigned /></field>
+		<field name="cID" type="I"><unsigned /></field>
+		<field name="position" type="I"><unsigned /></field>						
+	</table>
+	
+</schema>

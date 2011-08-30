@@ -1,0 +1,13 @@
+.ccm-multi-page-selector {}
+.ccm-multi-page-selector .items {margin:0;padding:0;}
+.ccm-multi-page-selector .items li {list-style:none;background:#eee;border:1px solid #ccc;border-radius:5px;display:block;overflow:hidden;padding:5px 8px;margin:0 0 3px 0;position:relative;font-size:11px;}
+
+.ccm-multi-page-selector .items li .icon {float:left;background:url(/concrete/images/dashboard/sitemap/document.png) no-repeat 0 0;height:16px;width:16px;margin:0 5px 0 0;cursor:move;}
+.ccm-multi-page-selector .items li .name {cursor:move;}
+
+.ccm-multi-page-selector .items li .actions {position:absolute;right:5px;top:4px;float:right;}
+.ccm-multi-page-selector .items li .actions a {text-indent:-5000px;height:16px;width:16px;float:left;margin:0 0 0 5px;}
+.ccm-multi-page-selector .items li .actions a.remove {background:url(/concrete/images/icons/remove.png) no-repeat 0 0;}
+
+
+.ccm-multi-page-selector .ccm-summary-selected-item {padding:4px 8px;}
