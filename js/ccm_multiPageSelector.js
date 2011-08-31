@@ -1,9 +1,14 @@
-//Requires jQuery and the jQuery UI Widget factory
+//Requires jQuery.Widget factory and jQuery.ui.sortable
 
 
 (function(){
 	var $ = jQuery,
 		undefined;
+		
+	if(typeof console === "undefined"){
+		var console = {log:function(){}};
+		console.debug = console.info = console.warn = console.error = console.log = function(){};	
+	}
 	
 	var wrapClass = "ccm-multi-page-selector";
 		
