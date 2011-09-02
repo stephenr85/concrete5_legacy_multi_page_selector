@@ -1,8 +1,8 @@
 <?php  defined('C5_EXECUTE') or die(_("Access Denied."));
 
 /**
- * Provides a helper that creates a field for selecting multiple files. Also provides a block type and attribute type that employs the helper.
- * @package Section Title
+ * Provides a helper that creates a field for selecting multiple pages. Also provides a block type and attribute type that employs the helper.
+ * @package Multi-Page Selector
  * @author Stephen Rushing
  * @category Packages
  * @copyright  Copyright (c) 2011 Stephen Rushing. (http://www.esiteful.com)
@@ -14,7 +14,7 @@ class MultiPageSelectorPackage extends Package {
 	protected $pkgVersion = '0.9';
 	
 	public function getPackageDescription() {
-		return t("Provides a helper that creates a field for selecting multiple files. Also provides a block type and attribute type that employs the helper.");
+		return t("Provides a helper that creates a field for selecting multiple pages. Also provides a block type and attribute type that employs the helper.");
 	}
 	
 	public function getPackageName() {
