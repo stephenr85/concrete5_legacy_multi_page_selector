@@ -25,7 +25,7 @@
 		function loadMultiPageSelector(){
 			$html = Loader::helper('html');			
 			$mps = Loader::helper('form/multi_page_selector', 'multi_page_selector');
-			$mps->addHeaderAssets($this);
+			$mps->addHeaderItems($this);
 			$this->set('mps', $mps);	
 		}
 		

@@ -4,31 +4,34 @@ class FormMultiPageSelectorHelper {
 	
 	private $view;
 	private $html;
+	private $cssToolsUrl;
+	
+	static $pkgHandle = 'multi_page_selector';
 	
 	function __construct(){
 		$this->view = View::getInstance();			
 		$this->html = Loader::helper('html');
 		$this->urls = Loader::helper('concrete/urls');
-		$this->cssToolsUrl = $this->urls->getToolsURL('css', 'multi_page_selector');
+		$this->cssToolsUrl = $this->urls->getToolsURL('css', self::$pkgHandle);
 	}
 
-	public function addHeaderAssets($to=NULL){
+	public function addHeaderItems($to=NULL){
 		if(is_null($to)){
 			$to = $this->view;
 		}
 		$to->addHeaderItem($this->html->javascript('jquery.ui.js'));
-		$to->addHeaderItem($this->html->javascript('ccm_multiPageSelector.js', 'multi_page_selector'));	
+		$to->addHeaderItem($this->html->javascript('ccm_multiPageSelector.js', self::$pkgHandle));	
 
-		$to->addHeaderItem($this->getTooledCss('multi-page-selector.css'), 'multi_page_selector');	
+		$to->addHeaderItem($this->getTooledCss('ccm-multi-page-selector.css'), self::$pkgHandle);	
 	}
 	
 	public function getTooledCss($file){
-		$css = $this->html->css($file, 'multi_page_selector');
+		$css = $this->html->css($file, self::$pkgHandle);
 		$css = $this->html->css($this->cssToolsUrl.'?file='.preg_replace('/\?.+$/', '', str_replace(BASE_URL ,'', $css->href)));
 		return $css;
 	}
 	
-	public function create($name, $values=NULL, $attrs=NULL, $append=NULL){
+	public function create($name, $values=NULL, $attrs=NULL, $append=NULL, $jsInit=TRUE){
 		$out = '';
 		
 		if(is_string($values)){
@@ -66,9 +69,11 @@ class FormMultiPageSelectorHelper {
 			$wrapAttrs.= "$attr=\"$val\" ";
 		}
 		
-		//Auto append a page selector and jquery plugin instantiatior, if nothing else is sent
-		if(is_null($append)){
-			$append = self::pageSelector('$name_selector');
+		//Auto append a page selector
+		$append = self::pageSelector($name.'_selector').$append;
+		
+		//Append jQuery plugin instantiatior
+		if($jsInit){
 			$jQuerySelector = isset($wrapAttrArr['id']) ? 'div#'.$wrapAttrArr['id'] : 'div.'.preg_replace("/\s+/", '.', $wrapAttrArr['class']);
 			$append .= "<script type=\"text/javascript\">$(function(){ $(\"$jQuerySelector\").ccm_multiPageSelector() });</script>";
 		}
@@ -77,15 +82,16 @@ class FormMultiPageSelectorHelper {
 		$out = "<div $wrapAttrs>$out$append</div>";
 		
 		//Try adding the header assets
-		$this->addHeaderAssets();
+		$this->addHeaderItems();
 		
 		return $out;
 	}
 	
 	public function pageSelector($name){
+		Log::addEntry($name);
 		//Get the page selector
 		$ps = Loader::helper('form/page_selector');
-		return $ps->selectPage("$name", FALSE, 'ccm_multiPageSelectorAdd');		
+		return $ps->selectPage($name, FALSE);		
 	}
 	
 	

@@ -9,16 +9,7 @@
 		var console = {log:function(){}};
 		console.debug = console.info = console.warn = console.error = console.log = function(){};	
 	}
-	
-	var wrapClass = "ccm-multi-page-selector";
 		
-	ccm_multiPageSelectorAdd = function(cID, cName, field){
-		var $field = $(field || ccmActivePageField),
-			fieldName = $(ccmActivePageField).attr("dialog-sender"),
-			$mpsel = $field.closest("."+wrapClass);
-
-		$mpsel.ccm_multiPageSelector("addItem", cID, cName, true);
-	};
 	
 	var ccm_multiPageSelector = {
 		options:{
@@ -35,6 +26,11 @@
 			this.list.disableSelection();
 			
 			this.itemActions = $.extend({}, this.itemActions);
+			
+			this.element.find("a.ccm-sitemap-select-page").unbind().dialog().click(function(){
+				ccmActivePageField = this;
+				I.takeover_ccm_selectSitemapNode();
+			});
 			
 			//Delegate item actions
 			this.list.delegate("a", "click", function(evt){
@@ -104,7 +100,7 @@
 		},
 		addItemAction:function(key, callback){
 			
-			var $actions = this.template.find(".act"),
+			var $actions = this.template.find(".actions"),
 				$action = $actions.children("."+key);
 			
 			//Add action to template, if it doesn't already exist
@@ -118,6 +114,16 @@
 		getItemBreadcrumb:function(cID, callback){		
 			var req = $.get(this.options.itemBreadcrumbUrl, {cID:cID}, callback);
 			return req;
+		},
+		takeover_ccm_selectSitemapNode:function(){
+			//IF THERE ARE ISSUES WITH THE PAGE CHOOSER COMMUNICATION, LOOK HERE FIRST
+			var I = this,
+				orig_ccm_selectSitemapNode = typeof(ccm_selectSitemapNode)==="undefined" ? false : ccm_selectSitemapNode;
+			ccm_selectSitemapNode = function(cID, cName){		
+				I.addItem(cID, cName, true);				
+				//Restore the original ccm_selectSitemapNode
+				ccm_chooseAsset = orig_ccm_selectSitemapNode;
+			};		
 		}
 	};
 	//Create the widget
