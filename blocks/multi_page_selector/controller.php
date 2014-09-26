@@ -28,6 +28,13 @@
 			$mps->addHeaderItems($this);
 			$this->set('mps', $mps);	
 		}
+
+		function getPageList(){
+			Loader::model('page_list');
+			$list = new PageList;
+			$list->filter('p1.cID', $this->cIDArray, '=');
+			return $list;
+		}
 		
 		function add(){
 			$this->loadCollectionIDArray();
@@ -41,6 +48,7 @@
 		}
 		function view(){
 			$this->loadCollectionIDArray();	
+			$this->set('pageList', $this->getPageList());
 		}
 		
 		
@@ -52,7 +60,7 @@
 			}
 			
 			if(empty($data['label'])){
-				$e->add(t('Enter a label that describes the references.'));
+				//$e->add(t('Enter a label that describes the references.'));
 			}
 			//$e->add($this->pre($data, TRUE));
 			return $e;
@@ -70,6 +78,7 @@
 			
 			//Add the pages
 			foreach($data['cIDArray'] as $cID){ 
+				if(!$cID) continue;
 				$vals = array(intval($this->bID),intval($cID), $pos);
 				$db->query("INSERT INTO btMultiPageSelectorItem (bID,cID,position) values (?,?,?)",$vals);
 				$pos++;
